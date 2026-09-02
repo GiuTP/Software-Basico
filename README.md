@@ -73,7 +73,7 @@ Trabalho realizado em dupla.
 
 ---
 
-## ⏱ Fundamentação / Arquitetura
+## ⏱ Arquitetura
 
 O gerenciador opera diretamente sobre a heap do processo via syscall `brk` (número 12 no Linux AMD64). Cada bloco alocado é precedido por um **registro de controle de 9 bytes** (1 byte de uso + 8 bytes de tamanho) e sucedido por um **rodapé de 8 bytes** (tamanho repetido), formando um layout de bloco com fronteiras bidirecionais — o que possibilita a coalescência em ambas as direções (para trás e para frente) durante a liberação.
 
@@ -95,7 +95,7 @@ A estratégia de alocação é **worst-fit**: percorre-se toda a lista de blocos
 
 ---
 
-## 🔧 API e Componentes
+## 🔧 API
 
 | Função | Assinatura | Descrição |
 |--------|------------|-----------|
@@ -111,7 +111,7 @@ A estratégia de alocação é **worst-fit**: percorre-se toda a lista de blocos
 
 ## 🔄 Dinâmica e Fluxo de Execução
 
-| Etapa | Comportamento e Ações Executadas |
+| Etapa | Comportamento |
 |-------|----------------------------------|
 | `setup_brk()` | Registra o endereço inicial da heap em variável `.bss`. A partir daqui, toda a heap é controlada pelo gerenciador. |
 | `memory_alloc(N)` — **worst-fit** | Percorre todos os blocos da heap. Seleciona o maior bloco livre com tamanho ≥ N. Se nenhum é encontrado, expande a heap via `brk`. |
